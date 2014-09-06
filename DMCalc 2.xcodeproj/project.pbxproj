@@ -27,6 +27,7 @@
 		33782F741985CCEE0086CC03 /* LDESolverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33782F731985CCEE0086CC03 /* LDESolverView.swift */; };
 		33782F761985CCF70086CC03 /* MODSolverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33782F751985CCF70086CC03 /* MODSolverView.swift */; };
 		33CF1A3119A6E2E000DD1114 /* DMCalcKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF1A3019A6E2E000DD1114 /* DMCalcKeyboard.swift */; };
+		33F57AA219BB8DBD003BF510 /* DMCalcTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F57AA119BB8DBD003BF510 /* DMCalcTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		33782F731985CCEE0086CC03 /* LDESolverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LDESolverView.swift; sourceTree = "<group>"; };
 		33782F751985CCF70086CC03 /* MODSolverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MODSolverView.swift; sourceTree = "<group>"; };
 		33CF1A3019A6E2E000DD1114 /* DMCalcKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMCalcKeyboard.swift; sourceTree = "<group>"; };
+		33F57AA119BB8DBD003BF510 /* DMCalcTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMCalcTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				33782F661985C8330086CC03 /* GCDCalc.swift */,
 				33782F6A1985C8610086CC03 /* LDESolver.swift */,
 				33CF1A3019A6E2E000DD1114 /* DMCalcKeyboard.swift */,
+				33F57AA119BB8DBD003BF510 /* DMCalcTextField.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				33782F461985C7D80086CC03 /* AppDelegate.swift in Sources */,
 				33782F691985C84C0086CC03 /* GCDCalcView.swift in Sources */,
 				33782F651985C81D0086CC03 /* Constants.swift in Sources */,
+				33F57AA219BB8DBD003BF510 /* DMCalcTextField.swift in Sources */,
 				33782F6B1985C8610086CC03 /* LDESolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

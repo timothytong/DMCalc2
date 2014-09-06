@@ -8,7 +8,7 @@
 
 import UIKit
 @objc protocol GCDCalcViewDelegate{
-    func closePage()
+    func closePage(completionHandler:()->Void)
 }
 
 class GCDCalcView: UIView, UITextFieldDelegate, DMCalcKeyboardDelegate {
@@ -16,7 +16,9 @@ class GCDCalcView: UIView, UITextFieldDelegate, DMCalcKeyboardDelegate {
     var num1In = UITextField()
     var num2In = UITextField()
     var backButton = UIButton()
+    var keyboard:DMCalcKeyboard!
     var delegate:GCDCalcViewDelegate?
+    var keyboardIsOpen = false
     required init(coder: NSCoder) {
         fatalError("NSCoding not supported")
     }
@@ -61,23 +63,53 @@ class GCDCalcView: UIView, UITextFieldDelegate, DMCalcKeyboardDelegate {
         title.textColor = Constants.FONT_COLOR()
         self.titleBg.addSubview(title)
         self.addSubview(self.titleBg)
-        var keyboard:DMCalcKeyboard
         if !Constants.IS_IPAD(){
-            keyboard = DMCalcKeyboard(frame:CGRectMake(self.frame.width/2 - 140, self.frame.height - 280, 280, 280))
+            self.keyboard = DMCalcKeyboard(frame:CGRectMake(self.frame.width/2 - 140, self.frame.height, 280, 280))
         }
         else{
-            keyboard = DMCalcKeyboard(frame:CGRectMake(self.frame.width/2 - 210, self.frame.height - 210, 420, 420))
+            self.keyboard = DMCalcKeyboard(frame:CGRectMake(self.frame.width/2 - 210, self.frame.height, 420, 420))
         }
-        keyboard.delegate = self
-        self.addSubview(keyboard)
+        self.keyboard.delegate = self
+        self.addSubview(self.keyboard)
     }
-    
+    func GCDViewDidAppear(){
+        self.showKeyboard()
+    }
+    func showKeyboard(){
+        if !self.keyboardIsOpen{
+            self.keyboard.alpha = 1
+            if !Constants.IS_IPAD(){
+                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                    self.keyboard.frame = CGRectMake(self.keyboard.frame.origin.x, self.frame.height - 280, 280, 280)
+                    }, completion: { (complete) -> Void in
+                        self.keyboardIsOpen = true
+                })
+            }
+            else{
+                UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                    self.keyboard.frame = CGRectMake(self.keyboard.frame.origin.x, self.frame.height - 420, 420, 420)
+                    }, completion: { (complete) -> Void in
+                        self.keyboardIsOpen = true
+                })
+            }
+        }
+    }
     func showFirstAnimation(){
         UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
             self.titleBg.frame = CGRectMake((1/4)*self.frame.width, self.titleBg.frame.origin.y, self.titleBg.frame.width, self.titleBg.frame.height)
             self.backButton.frame = CGRectMake(0, self.backButton.frame.origin.y, self.backButton.frame.width, self.backButton.frame.height)
             }, completion: {(completion:Bool)in
         })
+    }
+    func hideKeyboard(){
+        if self.keyboardIsOpen{
+            UIView.animateWithDuration(0.25, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                self.keyboard.frame = CGRectMake(self.keyboard.frame.origin.x, self.frame.height, self.keyboard.frame.width, self.keyboard.frame.height)
+                }) { (complete) -> Void in
+                    self.keyboardIsOpen = false
+                    self.keyboard.alpha = 0
+            }
+        }
     }
     
     func textFieldDidBeginEditing(textField: UITextField!){
@@ -92,11 +124,20 @@ class GCDCalcView: UIView, UITextFieldDelegate, DMCalcKeyboardDelegate {
     }
     
     func closePage(){
-        self.delegate?.closePage();
+        if self.keyboardIsOpen{
+            self.delegate?.closePage({ () -> Void in
+                self.hideKeyboard()
+            })
+        }
+        else{
+            self.delegate?.closePage({ () -> Void in
+            })
+        }
+        
     }
     
     func keyboardButtonDidPressed(number: NSInteger) {
-        NSLog("keyboard Button Did Pressed: %d",number)
+        NSLog("%d",number)
     }
     
     func keyboardDoneButtonPressed() {

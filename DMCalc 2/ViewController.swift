@@ -293,28 +293,28 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
     }
     
     func tileTapped(sender:UITapGestureRecognizer!){
-        if !self.isAnimating && sender.view.tag >= 1 && sender.view.tag <= 3{
+        if !self.isAnimating && sender.view!.tag >= 1 && sender.view!.tag <= 3{
             self.isAnimating = true
             UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-                sender.view.frame = CGRectMake(sender.view.frame.origin.x + 15, sender.view.frame.origin.y, sender.view.frame.width, sender.view.frame.height)
+                sender.view!.frame = CGRectMake(sender.view!.frame.origin.x + 15, sender.view!.frame.origin.y, sender.view!.frame.width, sender.view!.frame.height)
                 }, completion:
                 {(complete:Bool) in
                     UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-                        sender.view.frame = CGRectMake(sender.view.frame.origin.x - 15, sender.view.frame.origin.y, sender.view.frame.width, sender.view.frame.height)
+                        sender.view!.frame = CGRectMake(sender.view!.frame.origin.x - 15, sender.view!.frame.origin.y, sender.view!.frame.width, sender.view!.frame.height)
                         }, completion:
                         {(complete:Bool) in
                             self.isAnimating = false
                     })
             })
         }
-        else if !self.isAnimating && sender.view.tag == 4{
+        else if !self.isAnimating && sender.view!.tag == 4{
             self.isAnimating = true
             UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-                sender.view.frame = CGRectMake(sender.view.frame.origin.x, sender.view.frame.origin.y - 15, sender.view.frame.width, sender.view.frame.height)
+                sender.view!.frame = CGRectMake(sender.view!.frame.origin.x, sender.view!.frame.origin.y - 15, sender.view!.frame.width, sender.view!.frame.height)
                 }, completion:
                 {(complete:Bool) in
                     UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: {
-                        sender.view.frame = CGRectMake(sender.view.frame.origin.x, sender.view.frame.origin.y + 15, sender.view.frame.width, sender.view.frame.height)
+                        sender.view!.frame = CGRectMake(sender.view!.frame.origin.x, sender.view!.frame.origin.y + 15, sender.view!.frame.width, sender.view!.frame.height)
                         }, completion:
                         {(complete:Bool) in
                             self.isAnimating = false
@@ -325,8 +325,8 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
     }
     
     func tilePannedRight(sender:UIPanGestureRecognizer!){
-        if !self.aboutTileIsMoving && (self.labelBeingMoved == sender.view.tag || self.labelBeingMoved == 0){
-            self.labelBeingMoved = sender.view.tag
+        if !self.aboutTileIsMoving && (self.labelBeingMoved == sender.view!.tag || self.labelBeingMoved == 0){
+            self.labelBeingMoved = sender.view!.tag
             if sender.state == UIGestureRecognizerState.Began || sender.state == UIGestureRecognizerState.Changed{
                 var translation:CGPoint = sender.translationInView(self.background)
                 self.tileCurrentX += translation.x
@@ -342,13 +342,13 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
                 self.labelBeingMoved = 0
                 self.tileCurrentX = self.tileOriginalX
                 var target:UIView?
-                if sender.view.frame.origin.x >= -5{
+                if sender.view!.frame.origin.x >= -5{
                     //Switch View!!
                     //                NSLog("max width reached")
                     UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-                        sender.view.frame = CGRectMake(0, sender.view.frame.origin.y, self.view.frame.width, sender.view.frame.height)
-                        sender.view.backgroundColor = Constants.FONT_COLOR()
-                        switch(sender.view.tag){
+                        sender.view!.frame = CGRectMake(0, sender.view!.frame.origin.y, self.view.frame.width, sender.view!.frame.height)
+                        sender.view!.backgroundColor = Constants.FONT_COLOR()
+                        switch(sender.view!.tag){
                         case 1:
                             target = self.gcdCalcView
                             self.gcdLabelLong.textColor = Constants.MAIN_COLOR()
@@ -375,7 +375,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
                         self.gcdLabelLong.alpha = 0
                         self.ldeLabelLong.alpha = 0
                         self.modLabelLong.alpha = 0
-                        sender.view.frame = CGRectMake(self.tileOriginalX, sender.view.frame.origin.y, sender.view.frame.width, sender.view.frame.height)
+                        sender.view!.frame = CGRectMake(self.tileOriginalX, sender.view!.frame.origin.y, sender.view!.frame.width, sender.view!.frame.height)
                         }, completion: {(complete:Bool)in})
                 }
             }
@@ -384,7 +384,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
     }
     
     func abtTilePannedUp(sender:UIPanGestureRecognizer){
-        self.labelBeingMoved = sender.view.tag
+        self.labelBeingMoved = sender.view!.tag
         if sender.state == UIGestureRecognizerState.Began || sender.state == UIGestureRecognizerState.Changed{
             self.aboutTileIsMoving = true
             var translation:CGPoint = sender.translationInView(self.background)
@@ -393,7 +393,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
                 //detect edge
                 self.aboutTileCurrY -= translation.y
             }
-            if sender.view.frame.origin.y <= self.appTitleBg.frame.origin.y + self.appTitleBg.frame.height + 10{
+            if sender.view!.frame.origin.y <= self.appTitleBg.frame.origin.y + self.appTitleBg.frame.height + 10{
                 if self.gcdLabelbg.backgroundColor != Constants.FONT_COLOR(){
                     UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
                         self.gcdLabelbg.backgroundColor = Constants.FONT_COLOR()
@@ -419,13 +419,13 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
         else if sender.state == UIGestureRecognizerState.Ended{
             self.aboutTileCurrY = self.aboutTileY
             self.aboutTileIsMoving = false
-            if sender.view.frame.origin.y <= self.appTitleBg.frame.origin.y + self.appTitleBg.frame.height + 10{
+            if sender.view!.frame.origin.y <= self.appTitleBg.frame.origin.y + self.appTitleBg.frame.height + 10{
                 //Switch to ABOUT View!!
                 self.aboutLabel.alpha = 0
                 //                NSLog("max height reached")
                 UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
                     self.background.bringSubviewToFront(self.appTitleBg)
-                    sender.view.frame = CGRectMake(sender.view.frame.origin.x, sender.view.frame.origin.y - self.labelHeight, self.view.frame.width, sender.view.frame.height)
+                    sender.view!.frame = CGRectMake(sender.view!.frame.origin.x, sender.view!.frame.origin.y - self.labelHeight, self.view.frame.width, sender.view!.frame.height)
                     }, completion: {(complete:Bool)in
                         self.aboutSlider = AboutSlider(frame: CGRectMake(-(self.view.frame.width - self.appTitleBg.frame.origin.x), self.appTitleBg.frame.height + self.appTitleBg.frame.origin.y - 10, self.view.frame.width - self.appTitleBg.frame.origin.x, self.view.frame.height - self.appTitleBg.frame.origin.y - self.appTitleBg.frame.height + 10))
                         if Constants.IS_IPAD(){
@@ -457,7 +457,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
                     self.gcdLabel.alpha = 1
                     self.ldeLabel.alpha = 1
                     self.modLabel.alpha = 1
-                    sender.view.frame = CGRectMake(sender.view.frame.origin.x, self.aboutTileY, sender.view.frame.width, sender.view.frame.height)
+                    sender.view!.frame = CGRectMake(sender.view!.frame.origin.x, self.aboutTileY, sender.view!.frame.width, sender.view!.frame.height)
                     self.layoutSubviews()
                     }, completion: {(complete:Bool)in
                         self.labelBeingMoved = 0
@@ -619,6 +619,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
                                         self.gcdCalcView.showFirstAnimation()
                                         self.gcdVisShown = true
                                     }
+                                    self.gcdCalcView.GCDViewDidAppear()
                                 default:
                                     break
                                 }
@@ -672,7 +673,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
         }
     }
     
-    func closePage(){
+    func closePage(completionHandler:() -> Void){
         if let activeView = self.activeView{
             switch activeView{
             case openFunctionPage.GCDPage:
@@ -692,6 +693,7 @@ class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate
                                     }, completion: { (complete) -> Void in
                                         self.gcdCalcView.alpha = 0
                                         self.gcdCalcView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                                        completionHandler()
                                 })
                         })
                 })

@@ -73,7 +73,7 @@ class DMCalcKeyboard: UIView {
                     var backspaceImg = UIImage(named: "backspace-white.png")
                     var backspaceImgView = UIImageView(image: backspaceImg)
                     backspaceImgView.clipsToBounds = true
-                    backspaceImgView.frame = CGRectMake(backspaceView.frame.size.width/4, backspaceView.frame.size.height/4, backspaceView.frame.width/2, backspaceView.frame.height/2)
+                    backspaceImgView.frame = CGRectMake(backspaceView.frame.width/2 - backspaceView.frame.size.width/5, backspaceView.frame.height/2 - backspaceView.frame.height/5, backspaceView.frame.width/2.5, backspaceView.frame.height/2.5)
                     backspaceView.addSubview(backspaceImgView)
                     self.addSubview(backspaceView)
                     backspaceView.tag = 12
@@ -90,7 +90,7 @@ class DMCalcKeyboard: UIView {
                     var clearImg = UIImage(named: "cancel-white.png")
                     var clearImgView = UIImageView(image: clearImg)
                     clearImgView.clipsToBounds = true
-                    clearImgView.frame = CGRectMake(clearView.frame.size.width/4, clearView.frame.size.height/4, clearView.frame.width/2, clearView.frame.height/2)
+                    clearImgView.frame = CGRectMake(clearView.frame.width/2 - clearView.frame.width/5, clearView.frame.height/2 - clearView.frame.height/5, clearView.frame.width/2.5, clearView.frame.height/2.5)
                     let longPress = UILongPressGestureRecognizer(target: self, action: "buttonLongPressed:")
                     longPress.minimumPressDuration = 0.0
                     clearView.addGestureRecognizer(longPress)
@@ -99,7 +99,7 @@ class DMCalcKeyboard: UIView {
                     clearView.tag = 13
                     self.viewsDict.updateValue(clearView, forKey:"13")
                     self.viewsDict.updateValue(clearImgView, forKey:"i13")
-
+                    
                 }
                 //Special case: 9 -> BACK
                 if row == 2 && col == 2{
@@ -119,7 +119,7 @@ class DMCalcKeyboard: UIView {
                     self.addSubview(backView)
                     self.viewsDict.updateValue(backView, forKey: "10")
                     self.viewsDict.updateValue(backText, forKey: "t10")
-
+                    
                 }
                 
             }
@@ -138,6 +138,7 @@ class DMCalcKeyboard: UIView {
             zeroView.addSubview(zeroText)
             let longPress = UILongPressGestureRecognizer(target: self, action: "buttonLongPressed:")
             longPress.minimumPressDuration = 0.0
+            longPress.allowableMovement = 10
             zeroView.addGestureRecognizer(longPress)
             self.addSubview(zeroView)
             self.viewsDict.updateValue(zeroView, forKey: "0")
@@ -165,57 +166,62 @@ class DMCalcKeyboard: UIView {
     }
     func buttonLongPressed(sender:UILongPressGestureRecognizer!){
         //        NSLog("Button long pressed")
-        switch sender.view.tag{
+        switch sender.view!.tag{
         case 0...11:
-            var label:UILabel? = self.viewsDict[String(format: "t%d",sender.view.tag)] as? UILabel
+            var label:UILabel? = self.viewsDict[String(format: "t%d",sender.view!.tag)] as? UILabel
             if sender.state == UIGestureRecognizerState.Began{
+                self.delegate?.keyboardButtonDidPressed(sender.view!.tag)
                 UIView.animateWithDuration(0.15, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    sender.view.backgroundColor = Constants.FONT_COLOR()
+                    sender.view!.backgroundColor = Constants.FONT_COLOR()
                     if let textLabel = label{
                         textLabel.textColor = Constants.MAIN_COLOR()
                     }
                     }, completion: { (complete) -> Void in
                         
+                        
                 })
             }
+            /*
             if sender.state == UIGestureRecognizerState.Failed || sender.state == UIGestureRecognizerState.Cancelled{
-                NSLog("Gesture Failed/Canceled")
-                UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    sender.view.backgroundColor = Constants.MAIN_COLOR()
-                    }) { (complete) -> Void in
-                }
-                if let textLabel = label{
-                    UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                        textLabel.textColor = Constants.FONT_COLOR()
-                        }, completion: { (complete) -> Void in
-                    })
-                }
+            NSLog("Gesture Failed/Canceled")
+            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            sender.view!.backgroundColor = Constants.MAIN_COLOR()
+            }) { (complete) -> Void in
             }
+            if let textLabel = label{
+            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            textLabel.textColor = Constants.FONT_COLOR()
+            }, completion: { (complete) -> Void in
+            })
+            }
+            }
+            */
             if sender.state == UIGestureRecognizerState.Ended{
-                NSLog("Gesture Ended")
-                self.delegate?.keyboardButtonDidPressed(sender.view.tag)
-                UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    sender.view.backgroundColor = Constants.MAIN_COLOR()
+                //                NSLog("Gesture Ended")
+                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                    sender.view!.backgroundColor = Constants.MAIN_COLOR()
                     }) { (complete) -> Void in
                 }
                 if let textLabel = label{
-                    UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                    UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                         textLabel.textColor = Constants.FONT_COLOR()
                         }, completion: { (complete) -> Void in
                     })
                 }
             }
+            
         case 12...13:
-            var imageView:UIImageView? = self.viewsDict[String(format: "i%d",sender.view.tag)] as? UIImageView
+            var imageView:UIImageView? = self.viewsDict[String(format: "i%d",sender.view!.tag)] as? UIImageView
             if sender.state == UIGestureRecognizerState.Began{
+                self.delegate?.keyboardButtonDidPressed(sender.view!.tag)
                 UIView.animateWithDuration(0.15, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    sender.view.backgroundColor = Constants.FONT_COLOR()
+                    sender.view!.backgroundColor = Constants.FONT_COLOR()
                     if let imgView = imageView{
-                        if sender.view.tag == 12{
+                        if sender.view!.tag == 12{
                             var blackImg = UIImage(named: "backspace-black.png")
                             imgView.image = blackImg
                         }
-                        else if sender.view.tag == 13{
+                        else if sender.view!.tag == 13{
                             var blackImg = UIImage(named: "cancel-black.png")
                             imgView.image = blackImg
                         }
@@ -224,41 +230,42 @@ class DMCalcKeyboard: UIView {
                         
                 })
             }
+            /*
             if sender.state == UIGestureRecognizerState.Failed || sender.state == UIGestureRecognizerState.Cancelled{
-                NSLog("Gesture Failed/Canceled")
-                UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    sender.view.backgroundColor = Constants.MAIN_COLOR()
-                    }) { (complete) -> Void in
-                }
-                if let imgView = imageView{
-                    if sender.view.tag == 12{
-                        var whiteImg = UIImage(named: "backspace-white.png")
-                        imgView.image = whiteImg
-                    }
-                    else if sender.view.tag == 13{
-                        var whiteImg = UIImage(named: "cancel-white.png")
-                        imgView.image = whiteImg
-                    }
-                }
+            NSLog("Gesture Failed/Canceled")
+            UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            sender.view!.backgroundColor = Constants.MAIN_COLOR()
+            }) { (complete) -> Void in
             }
+            if let imgView = imageView{
+            if sender.view!.tag == 12{
+            var whiteImg = UIImage(named: "backspace-white.png")
+            imgView.image = whiteImg
+            }
+            else if sender.view!.tag == 13{
+            var whiteImg = UIImage(named: "cancel-white.png")
+            imgView.image = whiteImg
+            }
+            }
+            }
+            */
             if sender.state == UIGestureRecognizerState.Ended{
-                NSLog("Gesture Ended")
-                self.delegate?.keyboardButtonDidPressed(sender.view.tag)
-                UIView.animateWithDuration(0.4, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-                    sender.view.backgroundColor = Constants.MAIN_COLOR()
+                //                NSLog("Gesture Ended")
+                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                    sender.view!.backgroundColor = Constants.MAIN_COLOR()
                     }) { (complete) -> Void in
                 }
                 if let imgView = imageView{
-                    if sender.view.tag == 12{
+                    if sender.view!.tag == 12{
                         var whiteImg = UIImage(named: "backspace-white.png")
                         imgView.image = whiteImg
                     }
-                    else if sender.view.tag == 13{
+                    else if sender.view!.tag == 13{
                         var whiteImg = UIImage(named: "cancel-white.png")
                         imgView.image = whiteImg
                     }
                 }
-
+                
             }
         default:
             break
@@ -280,7 +287,7 @@ class DMCalcKeyboard: UIView {
     }
     */
     func lastInput(){
-        var nextLabel: UILabel? = self.viewsDict["nextLabel"] as? UILabel
+        var nextLabel: UILabel? = self.viewsDict["11"] as? UILabel
         if let tempLabel:UILabel = nextLabel{
             UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
                 tempLabel.text = "DONE"
