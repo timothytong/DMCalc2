@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		331C96441985F5BD00F5EDFE /* back-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 331C96431985F5BD00F5EDFE /* back-white.png */; };
+		3346A9B119BABC4E004FD3C6 /* backspace-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 3346A9AF19BABC4E004FD3C6 /* backspace-black.png */; };
+		3346A9B219BABC4E004FD3C6 /* backspace-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 3346A9B019BABC4E004FD3C6 /* backspace-white.png */; };
+		3346A9B619BACA97004FD3C6 /* cancel-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 3346A9B519BACA97004FD3C6 /* cancel-black.png */; };
 		33782F461985C7D80086CC03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33782F451985C7D80086CC03 /* AppDelegate.swift */; };
 		33782F481985C7D80086CC03 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33782F471985C7D80086CC03 /* ViewController.swift */; };
 		33782F4B1985C7D80086CC03 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33782F491985C7D80086CC03 /* Main.storyboard */; };
@@ -23,6 +26,7 @@
 		33782F721985C89D0086CC03 /* separator-line-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 33782F6F1985C89D0086CC03 /* separator-line-white.png */; };
 		33782F741985CCEE0086CC03 /* LDESolverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33782F731985CCEE0086CC03 /* LDESolverView.swift */; };
 		33782F761985CCF70086CC03 /* MODSolverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33782F751985CCF70086CC03 /* MODSolverView.swift */; };
+		33CF1A3119A6E2E000DD1114 /* DMCalcKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CF1A3019A6E2E000DD1114 /* DMCalcKeyboard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +41,9 @@
 
 /* Begin PBXFileReference section */
 		331C96431985F5BD00F5EDFE /* back-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "back-white.png"; path = "images/back-white.png"; sourceTree = "<group>"; };
+		3346A9AF19BABC4E004FD3C6 /* backspace-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backspace-black.png"; path = "images/backspace-black.png"; sourceTree = "<group>"; };
+		3346A9B019BABC4E004FD3C6 /* backspace-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "backspace-white.png"; path = "images/backspace-white.png"; sourceTree = "<group>"; };
+		3346A9B519BACA97004FD3C6 /* cancel-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cancel-black.png"; path = "images/cancel-black.png"; sourceTree = "<group>"; };
 		33782F401985C7D80086CC03 /* DMCalc 2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DMCalc 2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33782F441985C7D80086CC03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33782F451985C7D80086CC03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -56,6 +63,7 @@
 		33782F6F1985C89D0086CC03 /* separator-line-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "separator-line-white.png"; path = "images/separator-line-white.png"; sourceTree = "<group>"; };
 		33782F731985CCEE0086CC03 /* LDESolverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LDESolverView.swift; sourceTree = "<group>"; };
 		33782F751985CCF70086CC03 /* MODSolverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MODSolverView.swift; sourceTree = "<group>"; };
+		33CF1A3019A6E2E000DD1114 /* DMCalcKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMCalcKeyboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +89,7 @@
 			children = (
 				33782F661985C8330086CC03 /* GCDCalc.swift */,
 				33782F6A1985C8610086CC03 /* LDESolver.swift */,
+				33CF1A3019A6E2E000DD1114 /* DMCalcKeyboard.swift */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -167,9 +176,12 @@
 			isa = PBXGroup;
 			children = (
 				33782F6D1985C89D0086CC03 /* cancel-white.png */,
+				3346A9B519BACA97004FD3C6 /* cancel-black.png */,
 				33782F6E1985C89D0086CC03 /* pull-right-white.png */,
 				33782F6F1985C89D0086CC03 /* separator-line-white.png */,
 				331C96431985F5BD00F5EDFE /* back-white.png */,
+				3346A9AF19BABC4E004FD3C6 /* backspace-black.png */,
+				3346A9B019BABC4E004FD3C6 /* backspace-white.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -255,9 +267,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				331C96441985F5BD00F5EDFE /* back-white.png in Resources */,
+				3346A9B219BABC4E004FD3C6 /* backspace-white.png in Resources */,
 				33782F4B1985C7D80086CC03 /* Main.storyboard in Resources */,
 				33782F711985C89D0086CC03 /* pull-right-white.png in Resources */,
 				33782F721985C89D0086CC03 /* separator-line-white.png in Resources */,
+				3346A9B619BACA97004FD3C6 /* cancel-black.png in Resources */,
+				3346A9B119BABC4E004FD3C6 /* backspace-black.png in Resources */,
 				33782F4D1985C7D80086CC03 /* Images.xcassets in Resources */,
 				33782F701985C89D0086CC03 /* cancel-white.png in Resources */,
 			);
@@ -279,6 +294,7 @@
 			files = (
 				33782F481985C7D80086CC03 /* ViewController.swift in Sources */,
 				33782F741985CCEE0086CC03 /* LDESolverView.swift in Sources */,
+				33CF1A3119A6E2E000DD1114 /* DMCalcKeyboard.swift in Sources */,
 				33782F761985CCF70086CC03 /* MODSolverView.swift in Sources */,
 				33782F631985C7F50086CC03 /* AboutSlider.swift in Sources */,
 				33782F671985C8330086CC03 /* GCDCalc.swift in Sources */,

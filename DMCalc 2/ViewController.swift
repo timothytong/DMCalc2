@@ -8,7 +8,12 @@
 
 import UIKit
 import QuartzCore
-class ViewController: UIViewController, AboutSliderDelegate {
+class ViewController: UIViewController, AboutSliderDelegate, GCDCalcViewDelegate {
+    enum openFunctionPage{
+        case GCDPage
+        case LDEPage
+        case MODPage
+    }
     var isAnimating = false
     var appTitleBg = UIView()
     var background = UIView()
@@ -40,9 +45,9 @@ class ViewController: UIViewController, AboutSliderDelegate {
     var gcdCalcView:GCDCalcView!
     var ldeSolverView:LDESolverView!
     var modSolverView:ModSolverView!
-    var activeView = 0
     var rect1 = UIView()
     var rect2 = UIView()
+    var activeView:openFunctionPage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +62,8 @@ class ViewController: UIViewController, AboutSliderDelegate {
         self.view.backgroundColor = Constants.SECONDARY_COLOR()
         self.background.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         self.background.backgroundColor = Constants.MAIN_COLOR()
+        self.background.layer.borderColor = Constants.MAIN_COLOR().CGColor
+        self.background.layer.borderWidth = 0.5
         self.appTitleBg.frame = CGRectMake(self.view.frame.width, titleY, self.view.frame.width-30, appTitleHeight)
         self.appTitleBg.backgroundColor = Constants.SECONDARY_COLOR()
         let appTitle = UILabel(frame: CGRectMake(0, 0, self.view.frame.width-45, appTitleHeight))
@@ -231,6 +238,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
         // Functional views
         self.gcdCalcView = GCDCalcView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
         self.gcdCalcView.alpha = 0
+        self.gcdCalcView.delegate = self
         self.view.addSubview(self.gcdCalcView)
         
         self.ldeSolverView = LDESolverView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height))
@@ -270,11 +278,11 @@ class ViewController: UIViewController, AboutSliderDelegate {
                                                 self.aboutTileCurrY = self.aboutTileY
                                                 self.aboutTileX = self.aboutLabelbg.frame.origin.x
                                                 self.isAnimating = false
-                                            })
-                                    })
-                            })
-                    })
-            })
+                                        })
+                                })
+                        })
+                })
+        })
         
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -296,8 +304,8 @@ class ViewController: UIViewController, AboutSliderDelegate {
                         }, completion:
                         {(complete:Bool) in
                             self.isAnimating = false
-                        })
-                })
+                    })
+            })
         }
         else if !self.isAnimating && sender.view.tag == 4{
             self.isAnimating = true
@@ -310,8 +318,8 @@ class ViewController: UIViewController, AboutSliderDelegate {
                         }, completion:
                         {(complete:Bool) in
                             self.isAnimating = false
-                        })
-                })
+                    })
+            })
             
         }
     }
@@ -327,7 +335,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
                 sender.setTranslation(CGPointZero, inView: self.background)
                 dispatch_async(dispatch_get_main_queue(), {
                     self.layoutSubviews()
-                    })
+                })
                 
             }
             else if sender.state == UIGestureRecognizerState.Ended{
@@ -357,7 +365,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
                             if let targetView = target{
                                 self.transitionToView(targetView)
                             }
-                        })
+                    })
                 }
                 else{
                     UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseIn, animations: {
@@ -386,7 +394,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
                 self.aboutTileCurrY -= translation.y
             }
             if sender.view.frame.origin.y <= self.appTitleBg.frame.origin.y + self.appTitleBg.frame.height + 10{
-                if(self.gcdLabelbg.backgroundColor != Constants.FONT_COLOR()){
+                if self.gcdLabelbg.backgroundColor != Constants.FONT_COLOR(){
                     UIView.animateWithDuration(0.2, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
                         self.gcdLabelbg.backgroundColor = Constants.FONT_COLOR()
                         self.ldeLabelbg.backgroundColor = Constants.FONT_COLOR()
@@ -406,7 +414,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
             sender.setTranslation(CGPointZero, inView: self.background)
             dispatch_async(dispatch_get_main_queue(), {
                 self.layoutSubviews()
-                })
+            })
         }
         else if sender.state == UIGestureRecognizerState.Ended{
             self.aboutTileCurrY = self.aboutTileY
@@ -440,9 +448,9 @@ class ViewController: UIViewController, AboutSliderDelegate {
                                     self.modLabelbg.frame = CGRectMake(self.modLabelbg.frame.origin.x + 30, self.modLabelbg.frame.origin.y, self.modLabelbg.frame.width, self.modLabelbg.frame.height)
                                     }, completion: {(complete:Bool)in
                                         self.aboutSlider.showText()
-                                    })
-                            })
-                    })
+                                })
+                        })
+                })
             }
             else{
                 UIView.animateWithDuration(0.8, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: UIViewAnimationOptions.CurveEaseIn, animations: {
@@ -453,7 +461,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
                     self.layoutSubviews()
                     }, completion: {(complete:Bool)in
                         self.labelBeingMoved = 0
-                    })
+                })
             }
         }
     }
@@ -525,7 +533,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
             
             //GCD TILE
             if self.aboutTileCurrY + self.labelHeight/2 < self.gcdLabelbg.frame.origin.y{
-                if(self.gcdLabelbg.frame.origin.x != self.aboutLabelbg.frame.origin.x + 40 - self.gcdLabelbg.frame.width){
+                if self.gcdLabelbg.frame.origin.x != self.aboutLabelbg.frame.origin.x + 40 - self.gcdLabelbg.frame.width{
                     //                    NSLog("GCD tile moving RIGHT")
                     UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
                         self.gcdLabelbg.frame = CGRectMake(self.aboutLabelbg.frame.origin.x + 40 - self.gcdLabelbg.frame.width, self.gcdLabelbg.frame.origin.y, self.gcdLabelbg.frame.width, self.gcdLabelbg.frame.height)
@@ -572,7 +580,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
             self.modLabelbg.frame = CGRectMake(self.tileOriginalX, self.modLabelbg.frame.origin.y, (self.view.frame.width - 20), self.modLabelbg.frame.size.height)
             self.aboutLabelbg.frame = CGRectMake(self.aboutTileX, self.aboutTileY, self.aboutLabelbg.frame.width, self.aboutLabelbg.frame.height)
             self.background.transform = CGAffineTransformIdentity
-            })
+        })
         
         self.tileCurrentX = self.tileOriginalX
         self.aboutTileCurrY = self.aboutTileY
@@ -590,7 +598,7 @@ class ViewController: UIViewController, AboutSliderDelegate {
                 UIView.animateWithDuration(0.4, delay: 0.1, options: UIViewAnimationOptions.CurveEaseOut, animations: {
                     self.background.alpha = 1
                     }, completion: {(complete:Bool)in})
-            })
+        })
     }
     
     func transitionToView(targetView:UIView){
@@ -604,19 +612,22 @@ class ViewController: UIViewController, AboutSliderDelegate {
                         targetView.frame = CGRectMake(0, 0, targetView.frame.width, targetView.frame.height)
                         targetView.alpha = 1
                         }, completion: {(completion:Bool)in
-                            switch self.activeView{
-                            case 1:
-                                if !self.gcdVisShown{
-                                    self.gcdCalcView.showFirstAnimation()
-                                    self.gcdVisShown = true
+                            if let activePage = self.activeView{
+                                switch activePage{
+                                case openFunctionPage.GCDPage:
+                                    if !self.gcdVisShown{
+                                        self.gcdCalcView.showFirstAnimation()
+                                        self.gcdVisShown = true
+                                    }
+                                default:
+                                    break
                                 }
-                            default:
-                                break
+                                self.restoreLayout()
                             }
-                            self.restoreLayout()
-                        })
-                })
+                            
+                    })
             })
+        })
         
     }
     
@@ -625,13 +636,13 @@ class ViewController: UIViewController, AboutSliderDelegate {
         switch targetView{
         case self.gcdCalcView:
             targetLabel = self.gcdLabelbg
-            self.activeView = 1
+            self.activeView = openFunctionPage.GCDPage
         case self.ldeSolverView:
             targetLabel = self.ldeLabelbg
-            self.activeView = 2
+            self.activeView = openFunctionPage.LDEPage
         case self.modSolverView:
             targetLabel = self.modLabelbg
-            self.activeView = 3
+            self.activeView = openFunctionPage.MODPage
         default:
             NSLog("Error in tracking target label")
             break
@@ -654,10 +665,80 @@ class ViewController: UIViewController, AboutSliderDelegate {
                         completionHandler()
                     }
                 )
-                })
+            })
         }
         else{
             NSLog("ERROR on transition")
+        }
+    }
+    
+    func closePage(){
+        if let activeView = self.activeView{
+            switch activeView{
+            case openFunctionPage.GCDPage:
+                NSLog("Closing GCD page")
+                self.background.frame = CGRectMake(-self.view.frame.width, 0, self.view.frame.width, self.view.frame.height)
+                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.background.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                    self.gcdCalcView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                    }, completion: { (complete) -> Void in
+                        UIView.animateWithDuration(0.7, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                            self.background.frame = CGRectMake(0.1*self.view.frame.width, 0.1*self.view.frame.height, self.background.frame.width, self.background.frame.height)
+                            self.gcdCalcView.frame = CGRectMake(1.1*self.view.frame.width, 0.1*self.view.frame.height, self.gcdCalcView.frame.width, self.gcdCalcView.frame.height)
+                            }, completion: { (complete) -> Void in
+                                UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                    self.background.transform = CGAffineTransformIdentity
+                                    self.gcdCalcView.transform = CGAffineTransformIdentity
+                                    }, completion: { (complete) -> Void in
+                                        self.gcdCalcView.alpha = 0
+                                        self.gcdCalcView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                                })
+                        })
+                })
+            case openFunctionPage.LDEPage:
+                NSLog("Closing LDE page")
+                self.background.frame = CGRectMake(-self.view.frame.width, 0, self.view.frame.width, self.view.frame.height)
+                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.background.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                    self.ldeSolverView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                    }, completion: { (complete) -> Void in
+                        UIView.animateWithDuration(0.7, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                            self.background.frame = CGRectMake(0.1*self.view.frame.width, 0.1*self.view.frame.height, self.background.frame.width, self.background.frame.height)
+                            self.ldeSolverView.frame = CGRectMake(1.1*self.view.frame.width, 0.1*self.view.frame.height, self.ldeSolverView.frame.width, self.ldeSolverView.frame.height)
+                            }, completion: { (complete) -> Void in
+                                UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                    self.background.transform = CGAffineTransformIdentity
+                                    self.ldeSolverView.transform = CGAffineTransformIdentity
+                                    }, completion: { (complete) -> Void in
+                                        self.ldeSolverView.alpha = 0
+                                        self.ldeSolverView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                                })
+                        })
+                })
+            case openFunctionPage.MODPage:
+                NSLog("Closing MOD page")
+                self.background.frame = CGRectMake(-self.view.frame.width, 0, self.view.frame.width, self.view.frame.height)
+                UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    self.background.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                    self.modSolverView.transform = CGAffineTransformMakeScale(0.8, 0.8)
+                    }, completion: { (complete) -> Void in
+                        UIView.animateWithDuration(0.7, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                            self.background.frame = CGRectMake(0.1*self.view.frame.width, 0.1*self.view.frame.height, self.background.frame.width, self.background.frame.height)
+                            self.modSolverView.frame = CGRectMake(1.1*self.view.frame.width, 0.1*self.view.frame.height, self.modSolverView.frame.width, self.modSolverView.frame.height)
+                            }, completion: { (complete) -> Void in
+                                UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+                                    self.background.transform = CGAffineTransformIdentity
+                                    self.modSolverView.transform = CGAffineTransformIdentity
+                                    }, completion: { (complete) -> Void in
+                                        self.modSolverView.alpha = 0
+                                        self.modSolverView.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+                                })
+                        })
+                })
+            default:
+                break
+                
+            }
         }
     }
 }

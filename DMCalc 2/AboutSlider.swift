@@ -14,7 +14,10 @@ class AboutSlider: UIView {
     var delegate:AboutSliderDelegate?
     var aboutSliderIsOpen = false
     var textArea = UIView()
-    init(frame: CGRect) {
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+    override init(frame: CGRect) {
         super.init(frame: frame)
         // Initialization code
         self.backgroundColor = Constants.SECONDARY_COLOR()

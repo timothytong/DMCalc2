@@ -21,7 +21,7 @@ class LDESolver: NSObject {
         else{
             var quotients:NSArray = NSMutableArray(array: gcdCalc.getQuotients())
             var multiplier:Int = z / self.gcd!
-            if (quotients == nil) {
+            if (quotients.count == 0) {
                 return results!
             }
             else{

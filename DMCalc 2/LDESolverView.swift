@@ -9,7 +9,11 @@
 import UIKit
 
 class LDESolverView: UIView {
-    init(frame: CGRect) {
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+    
+    override init(frame: CGRect) {
         super.init(frame: frame)
         // Initialization code
         self.backgroundColor = Constants.MAIN_COLOR()

@@ -7,16 +7,25 @@
 //
 
 import UIKit
+@objc protocol GCDCalcViewDelegate{
+    func closePage()
+}
 
-class GCDCalcView: UIView, UITextFieldDelegate {
+class GCDCalcView: UIView, UITextFieldDelegate, DMCalcKeyboardDelegate {
     var titleBg = UIView()
     var num1In = UITextField()
     var num2In = UITextField()
     var backButton = UIButton()
-    init(frame: CGRect) {
+    var delegate:GCDCalcViewDelegate?
+    required init(coder: NSCoder) {
+        fatalError("NSCoding not supported")
+    }
+    override init(frame: CGRect) {
         super.init(frame: frame)
         // Initialization code
         self.backgroundColor = Constants.MAIN_COLOR()
+        self.layer.borderColor = Constants.MAIN_COLOR().CGColor
+        self.layer.borderWidth = 0.5
         var titleheight:CGFloat = 80
         var titlefontsize:CGFloat = 30
         var titleY:CGFloat = 30
@@ -52,6 +61,15 @@ class GCDCalcView: UIView, UITextFieldDelegate {
         title.textColor = Constants.FONT_COLOR()
         self.titleBg.addSubview(title)
         self.addSubview(self.titleBg)
+        var keyboard:DMCalcKeyboard
+        if !Constants.IS_IPAD(){
+            keyboard = DMCalcKeyboard(frame:CGRectMake(self.frame.width/2 - 140, self.frame.height - 280, 280, 280))
+        }
+        else{
+            keyboard = DMCalcKeyboard(frame:CGRectMake(self.frame.width/2 - 210, self.frame.height - 210, 420, 420))
+        }
+        keyboard.delegate = self
+        self.addSubview(keyboard)
     }
     
     func showFirstAnimation(){
@@ -59,7 +77,7 @@ class GCDCalcView: UIView, UITextFieldDelegate {
             self.titleBg.frame = CGRectMake((1/4)*self.frame.width, self.titleBg.frame.origin.y, self.titleBg.frame.width, self.titleBg.frame.height)
             self.backButton.frame = CGRectMake(0, self.backButton.frame.origin.y, self.backButton.frame.width, self.backButton.frame.height)
             }, completion: {(completion:Bool)in
-            })
+        })
     }
     
     func textFieldDidBeginEditing(textField: UITextField!){
@@ -74,10 +92,21 @@ class GCDCalcView: UIView, UITextFieldDelegate {
     }
     
     func closePage(){
-        UIView.animateWithDuration(0.5, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-            self.alpha = 0
-            }, completion: {(completion:Bool)in})
+        self.delegate?.closePage();
     }
+    
+    func keyboardButtonDidPressed(number: NSInteger) {
+        NSLog("keyboard Button Did Pressed: %d",number)
+    }
+    
+    func keyboardDoneButtonPressed() {
+        NSLog("keyboard Done Button Pressed")
+    }
+    
+    func keyboardNextButtonPressed() {
+        NSLog("keyboard Next Button Pressed")
+    }
+    
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
